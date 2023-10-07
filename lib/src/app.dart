@@ -31,36 +31,38 @@ class HomeScreen extends StatelessWidget {
         ),
       body:SingleChildScrollView(//スクロールを可能に！
         child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                ),child:Container(width: 150,
-          height: 40,
-                  child:TextButton(
-                    onPressed: () {
-                    Navigator.push(context,
-                    MaterialPageRoute(
-                      builder: (context) => TalkScreen(),
-                      fullscreenDialog: true,
-                    ));
-                    }, 
-                  style: TextButton.styleFrom(backgroundColor: Color(0xFFC51162 ), // 背景色を設定
-              primary: Colors.white,) ,
-                  child: Text('対話開始',style: const TextStyle( // ← TextStyleを渡す.textのフォントや大きさの設定
-                              fontSize: 18,)),))),  
-                  
-                  Text('単語確認'),
-                  
-                  
-                  SizedBox(width: 500,height:100),
-                 
-                   
-                  
+              Center(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),child:Container(width: 150,
+                        height: 40,
+                    child:TextButton(
+                      onPressed: () {
+                      Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => TalkScreen(),
+                        fullscreenDialog: true,
+                      ));
+                      }, 
+                    style: TextButton.styleFrom(backgroundColor: Color(0xFFC51162 ), // 背景色を設定
+                primary: Colors.white,) ,
+                    child: Text('対話開始',style: const TextStyle( // ← TextStyleを渡す.textのフォントや大きさの設定
+                                fontSize: 18,)),))),  
                     
-                  
-                ],),
+                    Text('単語確認'),
+                    
+                    
+                    SizedBox(width: 500,height:100),
+                   
+                     
+                    
+                      
+                    
+                  ],),
+              ),
           ),
     floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     floatingActionButton: FloatingActionButton( // ここから

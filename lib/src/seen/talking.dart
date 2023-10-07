@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/src/tools/voiceget.dart';
 import 'wordlist.dart';
 
 class TalkScreen extends StatelessWidget {
+
   const TalkScreen({Key? key}) : super(key: key);
 
+  
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {var text ="音声を文字に変換します";
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: false,
         title: const Text('AI会話'),
@@ -30,23 +35,29 @@ class TalkScreen extends StatelessWidget {
   ),
             ],
           ),
-          Column(
-            children: [
-              Center(
-                child:Container(width: 450,
-                  height: 200,
-                  
-                  child: Image.network('https://www.water-phoenix.com/wp-content/uploads/2016/02/hyo8.png',
-                    fit: BoxFit.cover,)
-                )
-              ),
-              Container(width: 150,
-              height: 40,
-              child: Text('会話BOX'),),
-            ],
+          Center(
+            child: Column(
+              children: [
+                Center(
+                  child:Container(width: 450,
+                    height: 200,
+                    
+                    child: Image.network('https://www.water-phoenix.com/wp-content/uploads/2016/02/hyo8.png',
+                      fit: BoxFit.cover,)
+                  )
+                ),
+                Container(width: 150,
+                height: 40,
+                child: Text('会話BOX'),
+                
+                ),Text('$text'),
+              ],
+            ),
           ),
         ]
       ),
-    );
+    floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton:VoiceGet(gettext: text,));
     }
 }
