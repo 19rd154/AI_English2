@@ -43,7 +43,7 @@ class _VoiceGetState extends State<VoiceGet> {
                         widget.gettext=text;
                       });
                     },
-                    localeId: 'ja_JP',// 日本語の設定
+                    localeId: 'English',// 日本語の設定
                   );
                 });
               }
