@@ -16,7 +16,7 @@ class TalkScreen extends StatelessWidget {
           Column(
             children: [Text('単語一覧'),
               Container(width: 150,
-              height: 2000,
+              height: 290,
               decoration: BoxDecoration(color: Colors.white),
               child: 
                   Scrollbar(
@@ -33,8 +33,8 @@ class TalkScreen extends StatelessWidget {
           Column(
             children: [
               Center(
-                child:Container(width: 300,
-                  height: 500,
+                child:Container(width: 450,
+                  height: 200,
                   
                   child: Image.network('https://www.water-phoenix.com/wp-content/uploads/2016/02/hyo8.png',
                     fit: BoxFit.cover,)

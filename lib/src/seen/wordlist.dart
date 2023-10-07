@@ -14,7 +14,7 @@ class WordContainer extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           // 内側の余白を指定
           horizontal: 20,
-          vertical: 16,
+          vertical: 8,
         ),
         decoration: const BoxDecoration(
           color: Colors.white, // 背景色を指定
