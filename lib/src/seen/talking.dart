@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'wordlist.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'DataClass/WordListData.dart';
+import 'DataClass/UrlBase.dart';
 
   //文字読み上げ機能
   FlutterTts flutterTts = FlutterTts();
   
   Future<void> _speak(String _speakText) async {
     await flutterTts.setLanguage("English");
-    await flutterTts.setSpeechRate(1.0);
+    await flutterTts.setSpeechRate(0.5);
     await flutterTts.setVolume(1.0);
     await flutterTts.setPitch(1.0);
     await flutterTts.speak(_speakText);
@@ -31,6 +35,7 @@ class TalkScreen extends StatefulWidget {
 class _TalkScreenState extends State<TalkScreen> {
   String text = "音声を文字に変換します";
   bool isListening = false;
+  List<WordListData> _wordList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +131,45 @@ class _TalkScreenState extends State<TalkScreen> {
       });
       // 音声認識を停止
       speechToText.stop();
+    }
+  }
+    Future<List<WordListData>> WordList_get_Http(int userid,String value) async {
+    HttpURL _search = HttpURL();
+    int status;
+    var url; 
+    if (value == 'api/words/word') {
+        url = Uri.http('${_search.hostname}', '${value}',{'userid':userid},);
+      } else if (value == 'api/userwords') {
+        url = Uri.http('${_search.hostname}', '${value}',{'userid':userid},);
+      }
+    
+
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      String responseBody = utf8.decode(response.bodyBytes);
+      print('Number of books about http: $responseBody.');
+      List<dynamic> responseData = jsonDecode(responseBody);
+      List<WordListData> wordlistdataList = [];
+      for (var itemData in responseData) {
+        WordListData wordListData = WordListData(
+          id: itemData['id'],
+          wordnumber: itemData['wordnumber'],
+          words: itemData['words'],
+          userid: itemData['userid'],
+          count: itemData['count'],
+        );
+        wordlistdataList.add(wordListData);
+      }
+      setState(() {
+        status=response.statusCode;
+        print(status);
+      });
+      
+      
+      return wordlistdataList;
+    } else {
+      print('Request failed with status: ${response.statusCode}.');status=response.statusCode;
+      return [];
     }
   }
 }
