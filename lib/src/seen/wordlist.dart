@@ -5,18 +5,27 @@ import 'DataClass/UrlBase.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class WordContainer extends StatelessWidget {
+class WordContainer extends StatefulWidget {
   const WordContainer({Key? key}) : super(key: key);
+
+
+  @override
+  State<WordContainer> createState() => WordContainerState();
+}
+  class WordContainerState extends State<WordContainer>{
+  late WordMeaningData wordmean;
 
    @override
   Widget build(BuildContext context) {
     return InkWell(
-          onTap: () {
+          onTap: () async{final result = await WordMean_get_Http();
+                    setState(() => wordmean = result as WordMeaningData);
+
             showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: Text('Aの動作の確認'),
+                    title: Text('${wordmean.word}:${wordmean.mean}'),
                   );
                 });
           },
@@ -42,36 +51,33 @@ class WordContainer extends StatelessWidget {
       )
     );
   }
-      Future<List<Object>> WordList_get_Http(int userid,String value) async {
+  Future<Object> WordMean_get_Http() async {
     HttpURL _search = HttpURL();
-    int status;
-    var url; 
-    if (value == 'api/words/word') {
-        url = Uri.http('${_search.hostname}', '${value}');
-      } else if (value == 'api/userwords') {
-        url = Uri.http('${_search.hostname}', '${value}',{'userid':userid},);
-      }
+    var url = Uri.http('${_search.hostname}', 'api/words/word');
     
     var response = await http.get(url);
     if (response.statusCode == 200) {
       String responseBody = utf8.decode(response.bodyBytes);
       print('Number of books about http: $responseBody.');
-      List<dynamic> responseData = jsonDecode(responseBody);
-      List<WordMeaningData> wordmeaningdataList = [];
-      for (var itemData in responseData) {
-        WordMeaningData wordMeaningData = WordMeaningData(
-          id: itemData['id'],
-          word: itemData['word'],
-          mean: itemData['mean'],
-        );
-        wordmeaningdataList.add(wordMeaningData);
-      }
       
       
+      dynamic responseData = jsonDecode(responseBody);
+
       
-      return wordmeaningdataList;
+        
+          WordMeaningData wordMeaningData = WordMeaningData(
+            id: responseData['id'],
+            word: responseData['word'],
+            mean: responseData['mean'],
+          );
+          
+        
+      
+    
+
+      return wordMeaningData;
     } else {
-      print('Request failed with status: ${response.statusCode}.');status=response.statusCode;
+      print('Request failed with status: ${response.statusCode}.');
       return [];
     }
   }
