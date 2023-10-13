@@ -23,4 +23,11 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
+  fonts:
+    - family: Klee_One
+      fonts:
+        - asset: assets/fonts/Klee_One/KleeOne-Regular.ttf
+          weight: 100
+        - asset: assets/fonts/Klee_One/KleeOne-SemiBold.ttf
+          weight: 100
   uses-material-design: true

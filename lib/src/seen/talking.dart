@@ -41,70 +41,97 @@ class _TalkScreenState extends State<TalkScreen> {
   String text = "音声を文字に変換します";
   bool isListening = false;
   List<WordListData> wordList = [];
+  int flag = 0;
+  bool isDisabled = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('AI会話'),
-      ),
+      
       body: Row(
         children: [
           Column(
-            children: [
+            children: [SizedBox(height: 20,width: 10,),
               // 単語一覧を表示
               Text('単語一覧'),
               Container(
                 width: 150,
-                height: 290,
-                decoration: BoxDecoration(color: Colors.white),
+                height: 330,
+                decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
                 child: Scrollbar(
                   child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: 100, // 本当のアイテム数に置き換えてください
+                    itemCount: wordList.length, // 本当のアイテム数に置き換えてください
                     itemBuilder: (BuildContext context, int index) {
-                      return WordContainer();
+                      return  WordContainer(worddata: wordList[index]);
                     },
                   ),
                 ),
               ),
             ],
-          ),
-          Center(
-            child: Column(
-              children: [
+          ),SizedBox(height: 10,width: 10,),
+          Column(
+              children: [SizedBox(height: 20,width: 10,),
                 Center(
-                  child: /*Container(
-                    width: 450,
-                    height: 200,
-                    child: Image.network(
-                      '',
-                      fit: BoxFit.cover,
+                  child:Container(
+                    width: 650,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.pink.withOpacity(0.5),// 背景色を指定
+                      borderRadius: BorderRadius.circular(8.0), // 角を丸くする半径を指定
+                      border: Border.all(
+                        
+                        color: Colors.pink,  // ボーダーの色を設定
+                        width: 1.0,           // ボーダーの幅を設定
+                      ),
                     ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,  // テキストを右寄せに配置
+                        child: flag==0?Text('あなた'):Text('桃瀬ひより'),
+                      ),
+                      SizedBox(height: 5,width: 10,),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child:Text('$text',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3, 
+                          style: const TextStyle(fontSize: 15,fontFamily: 'Klee_One',)
+                        ),
+                      ),
+                    ],
                   ),
-                ),*/
-                Container(
-                  width: 150,
-                  height: 20,
-                  child: Text('会話BOX'),
-                ),),
+                ),
+              ),
                 // テキストを表示
-                Text('$text'),
-                TextButton(onPressed: ()async{await _speak(text);},
-                 child: Text("読み上げ")),
+                
+  
               ],
             ),
-          ),
+          
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () async{
+        onPressed:  isDisabled
+      ? null:()async{
           // マイクボタンが押されたときに音声認識を開始
+          flag=0;
+          isDisabled=true;
           Voiceget();
-          await Future.delayed(Duration(seconds: 15));
-          final resurlt = await _post_request('hello');
+          
+          await Future.delayed(Duration(seconds: 5));
+          String result = await _post_request(text);
+          setState(() {
+             text=result;
+          });
+          flag=1;
+         _speak(text);
+
+         final getlist = await WordList_get_Http('1');
+         setState(() => wordList = getlist);
+         isDisabled=false; 
 
         },
         child: Icon(Icons.mic),
@@ -125,7 +152,7 @@ class _TalkScreenState extends State<TalkScreen> {
           onResult: (result) {
             setState(() {
               text = result.recognizedWords;
-              print('ここだよ$text');
+              print('ここだよ:$text');
             });
           },
           localeId: 'English', // 日本語の設定
@@ -139,15 +166,12 @@ class _TalkScreenState extends State<TalkScreen> {
       speechToText.stop();
     }
   }
-    Future<List<WordListData>> WordList_get_Http(int userid,String value) async {
+  Future<List<WordListData>> WordList_get_Http(String userid) async {
     HttpURL _search = HttpURL();
     int status;
     var url; 
-    if (value == 'api/words/word') {
-        url = Uri.http('${_search.hostname}', '${value}',{'userid':userid},);
-      } else if (value == 'api/userwords') {
-        url = Uri.http('${_search.hostname}', '${value}',{'userid':userid},);
-      }
+    print('ここだよ:${_search.hostname}api/userwords/$userid');
+      url = Uri.http('${_search.hostname}', 'api/userwords/$userid');
     
 
     var response = await http.get(url);
@@ -158,11 +182,7 @@ class _TalkScreenState extends State<TalkScreen> {
       List<WordListData> wordlistdataList = [];
       for (var itemData in responseData) {
         WordListData wordListData = WordListData(
-          id: itemData['id'],
-          wordnumber: itemData['wordnumber'],
-          words: itemData['words'],
-          userid: itemData['userid'],
-          count: itemData['count'],
+          words: itemData['word'],
         );
         wordlistdataList.add(wordListData);
       }
@@ -179,12 +199,12 @@ class _TalkScreenState extends State<TalkScreen> {
       return [];
     }
   }
-  Future<Object> _post_request(String text) async {
+  Future<String> _post_request(String text) async {
     HttpURL poster = HttpURL();
     Uri url = Uri.parse('http://${poster.hostname}/api/conversations');
     Map<String, String> headers = {'content-type': 'application/json'};
     String body = json.encode(
-      {'userid':1,'context':'piyopiyo'});
+      {'userid':1,'context':'$text'});
 
     http.Response response = await http.post(url, headers: headers, body: body);
     if (response.statusCode != 200) {
@@ -192,7 +212,7 @@ class _TalkScreenState extends State<TalkScreen> {
         int statusCode = response.statusCode;
         print("Failed to post $statusCode");
       });
-      return [];
+      return '';
     }
     
       String responseBody = utf8.decode(response.bodyBytes);
@@ -202,17 +222,16 @@ class _TalkScreenState extends State<TalkScreen> {
       
         
           ConversationData conversationData = ConversationData(
-            id: responseData['id'],
-            context: responseData['context'],
-            conversationtimes: responseData['conversation_times'],
-            gptflag: responseData['gpt_flag'],
+
+            context: responseData['response'],
+
           );
           
         
       
     
 
-      return conversationData;
+      return conversationData.context;
     } 
     
   }

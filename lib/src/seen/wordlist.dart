@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/src/seen/DataClass/WordListData.dart';
 import 'package:flutter_application_2/src/seen/DataClass/WordMeaningData.dart';
 
 import 'DataClass/UrlBase.dart';
@@ -6,7 +7,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class WordContainer extends StatefulWidget {
-  const WordContainer({Key? key}) : super(key: key);
+  WordListData worddata;
+  WordContainer({Key? key,required this.worddata}) : super(key: key);
 
 
   @override
@@ -18,7 +20,7 @@ class WordContainer extends StatefulWidget {
    @override
   Widget build(BuildContext context) {
     return InkWell(
-          onTap: () async{final result = await WordMean_get_Http();
+          onTap: () async{final result = await WordMean_get_Http(widget.worddata.words);
                     setState(() => wordmean = result as WordMeaningData);
 
             showDialog(
@@ -46,14 +48,14 @@ class WordContainer extends StatefulWidget {
               Radius.circular(32), // 角丸を設定
             ),
           ),
-          child: Text('a'),
+          child: Text('${widget.worddata.words}'),
         )
       )
     );
   }
-  Future<Object> WordMean_get_Http() async {
+  Future<Object> WordMean_get_Http(String word) async {
     HttpURL _search = HttpURL();
-    var url = Uri.http('${_search.hostname}', 'api/words/happy');
+    var url = Uri.http('${_search.hostname}', 'api/words/$word');
     
     var response = await http.get(url);
     if (response.statusCode == 200) {
