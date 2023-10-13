@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'wordlist.dart';
+import 'package:flutter_application_2/src/seen/DataClass/ConversationData.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
+
+
+import 'wordlist.dart';
 import 'DataClass/WordListData.dart';
 import 'DataClass/UrlBase.dart';
 
@@ -35,7 +40,7 @@ class TalkScreen extends StatefulWidget {
 class _TalkScreenState extends State<TalkScreen> {
   String text = "音声を文字に変換します";
   bool isListening = false;
-  List<WordListData> _wordList = [];
+  List<WordListData> wordList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +168,7 @@ class _TalkScreenState extends State<TalkScreen> {
       setState(() {
         status=response.statusCode;
         print(status);
+        
       });
       
       
@@ -172,4 +178,40 @@ class _TalkScreenState extends State<TalkScreen> {
       return [];
     }
   }
-}
+  Future<Object> _post_request(String text) async {
+    HttpURL poster = HttpURL();
+    Uri url = Uri.parse('${poster.hostname}');
+    Map<String, String> headers = {'content-type': 'application/json'};
+    String body = json.encode(
+      {'userid':'1','context':'$text'});
+
+    http.Response response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode != 200) {
+      setState(() {
+        int statusCode = response.statusCode;
+        print("Failed to post $statusCode");
+      });
+      return [];
+    }
+    
+      String responseBody = utf8.decode(response.bodyBytes);
+      print('Number of books about http: $responseBody.');
+      dynamic responseData = jsonDecode(responseBody);
+
+      
+        
+          ConversationData conversationData = ConversationData(
+            id: responseData['id'],
+            context: responseData['context'],
+            conversationtimes: responseData['conversation_times'],
+            gptflag: responseData['gpt_flag'],
+          );
+          
+        
+      
+    
+
+      return conversationData;
+    } 
+    
+  }
