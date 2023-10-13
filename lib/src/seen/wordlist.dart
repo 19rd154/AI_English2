@@ -53,7 +53,7 @@ class WordContainer extends StatefulWidget {
   }
   Future<Object> WordMean_get_Http() async {
     HttpURL _search = HttpURL();
-    var url = Uri.http('${_search.hostname}', 'api/words/word');
+    var url = Uri.http('${_search.hostname}', 'api/words/happy');
     
     var response = await http.get(url);
     if (response.statusCode == 200) {

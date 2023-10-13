@@ -75,20 +75,20 @@ class _TalkScreenState extends State<TalkScreen> {
             child: Column(
               children: [
                 Center(
-                  child: Container(
+                  child: /*Container(
                     width: 450,
                     height: 200,
                     child: Image.network(
-                      'https://www.water-phoenix.com/wp-content/uploads/2016/02/hyo8.png',
+                      '',
                       fit: BoxFit.cover,
                     ),
                   ),
-                ),
+                ),*/
                 Container(
                   width: 150,
                   height: 20,
                   child: Text('会話BOX'),
-                ),
+                ),),
                 // テキストを表示
                 Text('$text'),
                 TextButton(onPressed: ()async{await _speak(text);},
@@ -100,9 +100,11 @@ class _TalkScreenState extends State<TalkScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async{
           // マイクボタンが押されたときに音声認識を開始
           Voiceget();
+          await Future.delayed(Duration(seconds: 15));
+          final resurlt = await _post_request('hello');
 
         },
         child: Icon(Icons.mic),
@@ -130,7 +132,6 @@ class _TalkScreenState extends State<TalkScreen> {
         );
       }
     } else {
-      await Future.delayed(Duration(seconds: 5));
       setState(() {
         isListening = false;
       });
@@ -180,10 +181,10 @@ class _TalkScreenState extends State<TalkScreen> {
   }
   Future<Object> _post_request(String text) async {
     HttpURL poster = HttpURL();
-    Uri url = Uri.parse('${poster.hostname}');
+    Uri url = Uri.parse('http://${poster.hostname}/api/conversations');
     Map<String, String> headers = {'content-type': 'application/json'};
     String body = json.encode(
-      {'userid':'1','context':'$text'});
+      {'userid':1,'context':'piyopiyo'});
 
     http.Response response = await http.post(url, headers: headers, body: body);
     if (response.statusCode != 200) {
