@@ -88,7 +88,13 @@ class _TalkScreenState extends State<TalkScreen> {
                       width: 125,
                       height: 20,
                       decoration: BoxDecoration(color: Colors.white),
-                      child: Text('            単語一覧')),
+                      child: Text(
+                        '            単語一覧',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      )),
                   Container(
                     width: 125,
                     height: 270,
@@ -143,7 +149,11 @@ class _TalkScreenState extends State<TalkScreen> {
                         children: [
                           Align(
                             alignment: Alignment.centerLeft, // テキストを右寄せに配置
-                            child: flag == 0 ? Text('あなた') : Text('桃瀬ひより'),
+                            child: flag == 0
+                                ? Text('あなた',
+                                    style: TextStyle(color: Colors.white))
+                                : Text('桃瀬ひより',
+                                    style: TextStyle(color: Colors.white)),
                           ),
                           SizedBox(
                             height: 5,
@@ -156,6 +166,7 @@ class _TalkScreenState extends State<TalkScreen> {
                                 maxLines: 3,
                                 style: const TextStyle(
                                   fontSize: 15,
+                                  color: Colors.white,
                                   fontFamily: 'Klee_One',
                                 )),
                           ),
