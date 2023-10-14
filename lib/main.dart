@@ -16,10 +16,9 @@ import 'package:flutter/services.dart';
 // インスタンス
 const storage = FlutterSecureStorage();
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final String Username= await storage.read(key: "username") ?? "";
+  final String Username = await storage.read(key: "username") ?? "";
   final String Password = await storage.read(key: "password") ?? "";
   final String? userid_obj = await storage.read(key: "userid");
   int userid = -1; // デフォルト値を -1 に設定
@@ -34,9 +33,10 @@ Future<void> main() async {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight
   ]).then((_) {
-    runApp(MyApp(username: Username, password: Password,userid: userid,));
+    runApp(MyApp(
+      username: Username,
+      password: Password,
+      userid: userid,
+    ));
   });
-  
- 
 }
-
