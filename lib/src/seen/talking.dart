@@ -12,6 +12,7 @@ import 'dart:async';
 import 'wordlist.dart';
 import 'DataClass/WordListData.dart';
 import 'DataClass/UrlBase.dart';
+import 'package:flutter/services.dart';
 
   //文字読み上げ機能
   FlutterTts flutterTts = FlutterTts();
@@ -50,7 +51,13 @@ class _TalkScreenState extends State<TalkScreen> {
   int sessionflag=0;
   int session_time=-1;
   int count=0;
-
+  void didChangeDependencies() async {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +68,11 @@ class _TalkScreenState extends State<TalkScreen> {
             children: [
               SizedBox(height: 20,width: 1,),
               // 単語一覧を表示
-              Text('単語一覧'),
+              Container(
+                width: 125,
+                height: 20,
+                decoration: BoxDecoration(color: Colors.white),
+                child: Text('単語一覧')),
               Container(
                 width: 125,
                 height: 270,
@@ -83,7 +94,10 @@ class _TalkScreenState extends State<TalkScreen> {
                     fullscreenDialog: true,
                   ),
                 );
-              },child: Text('Back')),
+              },
+              style: TextButton.styleFrom(backgroundColor: Color(0xFFC51162 ), // 背景色を設定
+                primary: Colors.white,) ,
+              child: Text('Back')),
             ],
           ),SizedBox(height: 10,width: 10,),
           Stack(
@@ -93,7 +107,7 @@ class _TalkScreenState extends State<TalkScreen> {
             /////////////////////////
             Column(mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(height: 20,width: 10,),
+                  
                   Center(
                     child:Container(
                       width: 550,

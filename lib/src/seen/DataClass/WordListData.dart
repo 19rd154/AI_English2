@@ -9,3 +9,15 @@ class WordListData {
   required this.words,});
 
 }
+
+class ConversationListData {
+
+  String? context;
+
+  
+
+  ConversationListData({
+
+  required this.context,});
+
+}

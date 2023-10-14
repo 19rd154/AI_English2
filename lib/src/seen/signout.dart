@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'signup.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/services.dart';
 
 class LogoutScreen extends StatefulWidget {
   const LogoutScreen({Key? key, required this.username, required this.password})
@@ -15,6 +16,7 @@ class LogoutScreen extends StatefulWidget {
 }
 
 class _Logoutscreenstate extends State<LogoutScreen> {
+  
 
   @override
   void initState() {
@@ -45,7 +47,7 @@ class _Logoutscreenstate extends State<LogoutScreen> {
                   print("success");
                   Navigator.push(context, MaterialPageRoute(builder: (context) => signupPage()));
                 },
-                child: Text('ログアウト'),
+                child: Text('logout'),
               ),
             ),
           ],

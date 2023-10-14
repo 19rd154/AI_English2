@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/src/app.dart';
+import 'package:flutter_application_2/src/seen/DataClass/ConversationData.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -72,6 +73,7 @@ void _nameget(String Username) {
               _errorText = ''; // Clear any previous error
               int userid = await UserID_get_Http(_username);
               String _userid = userid.toString();
+              print(userid);
               await storage.write(key: "username", value: _username);
               await storage.write(key: "password", value: _password);
               await storage.write(key: "userid", value: _userid);
@@ -106,18 +108,9 @@ void _nameget(String Username) {
     if (response.statusCode == 200) {
   String responseBody = utf8.decode(response.bodyBytes);
   print('Number of books about http: $responseBody.');
-  Map<String, dynamic> responseData = jsonDecode(responseBody);
-if (responseData.isNotEmpty && responseData[0] is int) {
-  int userid = responseData[0] as int;
-  setState(() {
-    status = response.statusCode;
-    print(status);
-    print("userid: $userid");
-  });
-      return userid;
-    } else {
-      print("Invalid response format");
-    }
+  dynamic responseData = jsonDecode(responseBody);
+  UserData sessiondata=UserData(id: responseData['id'],);
+  return sessiondata.id;
   } else {
     print('Request failed with status: ${response.statusCode}.');
     status = response.statusCode;

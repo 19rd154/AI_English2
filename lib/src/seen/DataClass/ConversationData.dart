@@ -15,3 +15,12 @@ class SessionData{
 
   });
 }
+
+class UserData{
+  int id;
+
+  UserData({
+    required this.id,
+
+  });
+}
