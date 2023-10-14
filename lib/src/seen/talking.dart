@@ -63,8 +63,8 @@ class _TalkScreenState extends State<TalkScreen> {
               // 単語一覧を表示
               Text('単語一覧'),
               Container(
-                width: 150,
-                height: 290,
+                width: 125,
+                height: 270,
                 decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
                 child: Scrollbar(
                   child: ListView.builder(
@@ -96,7 +96,7 @@ class _TalkScreenState extends State<TalkScreen> {
                   SizedBox(height: 20,width: 10,),
                   Center(
                     child:Container(
-                      width: 630,
+                      width: 550,
                       height: 100,
                       decoration: BoxDecoration(
                         color: Color(0xFFC51162 ).withOpacity(0.5),// 背景色を指定

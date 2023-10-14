@@ -36,11 +36,7 @@ void _nameget(String Username) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Bocchi the Talk!'),
-        backgroundColor: Colors.black,
-      ),
+      
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(30.0),
