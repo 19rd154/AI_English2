@@ -71,57 +71,88 @@ class _TalkScreenState extends State<TalkScreen> {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        UnityWidget(
-          onUnityCreated: onUnityCreated,
-          onUnityMessage: onUnityMessage,
-          onUnitySceneLoaded: onUnitySceneLoaded,
-          fullscreen: false,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Center(
-              child: Container(
-                width: 550,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Color(0xFFC51162).withOpacity(0.5), // 背景色を指定
-                  borderRadius: BorderRadius.circular(8.0), // 角を丸くする半径を指定
-                  border: Border.all(
-                    color: Colors.pink, // ボーダーの色を設定
-                    width: 1.0, // ボーダーの幅を設定
+      body: Stack(
+        children: <Widget>[
+          UnityWidget(
+            onUnityCreated: onUnityCreated,
+            onUnityMessage: onUnityMessage,
+            onUnitySceneLoaded: onUnitySceneLoaded,
+            fullscreen: false,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                child: Container(
+                  width: 550,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFC51162).withOpacity(0.5), // 背景色を指定
+                    borderRadius: BorderRadius.circular(8.0), // 角を丸くする半径を指定
+                    border: Border.all(
+                      color: Colors.pink, // ボーダーの色を設定
+                      width: 1.0, // ボーダーの幅を設定
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft, // テキストを右寄せに配置
+                        child: flag == 0 ? Text('あなた') : Text('桃瀬ひより'),
+                      ),
+                      SizedBox(
+                        height: 5,
+                        width: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('$text',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Klee_One',
+                            )),
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft, // テキストを右寄せに配置
-                      child: flag == 0 ? Text('あなた') : Text('桃瀬ひより'),
-                    ),
-                    SizedBox(
-                      height: 5,
-                      width: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('$text',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Klee_One',
-                          )),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
-        ),
-      ],
-    ));
+            ],
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: isDisabled
+            ? null
+            : () async {
+                // マイクボタンが押されたときに音声認識を開始
+                flag = 0;
+                isDisabled = true;
+                Voiceget();
+                if (sessionflag == 0) {
+                  sessionflag = 1;
+                  int session_time =
+                      await sessiontime_get_Http(widget.username);
+                  print("session_time:$session_time");
+                }
+                await Future.delayed(Duration(seconds: 5));
+                String result = await _post_request(text, session_time, count);
+                count++;
+                setState(() {
+                  text = result;
+                });
+                flag = 1;
+                _speak(text);
+
+                final getlist = await WordList_get_Http('1');
+                setState(() => wordList = getlist);
+                isDisabled = false;
+              },
+        child: Icon(Icons.mic),
+      ),
+    );
   }
 
   Future<void> Voiceget() async {
