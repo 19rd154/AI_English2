@@ -82,38 +82,40 @@ class _TalkScreenState extends State<TalkScreen> {
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              width: 550,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Color(0xFFC51162).withOpacity(0.5), // 背景色を指定
-                borderRadius: BorderRadius.circular(8.0), // 角を丸くする半径を指定
-                border: Border.all(
-                  color: Colors.pink, // ボーダーの色を設定
-                  width: 1.0, // ボーダーの幅を設定
+            Center(
+              child: Container(
+                width: 550,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Color(0xFFC51162).withOpacity(0.5), // 背景色を指定
+                  borderRadius: BorderRadius.circular(8.0), // 角を丸くする半径を指定
+                  border: Border.all(
+                    color: Colors.pink, // ボーダーの色を設定
+                    width: 1.0, // ボーダーの幅を設定
+                  ),
                 ),
-              ),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft, // テキストを右寄せに配置
-                    child: flag == 0 ? Text('あなた') : Text('桃瀬ひより'),
-                  ),
-                  SizedBox(
-                    height: 5,
-                    width: 10,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('$text',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Klee_One',
-                        )),
-                  ),
-                ],
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft, // テキストを右寄せに配置
+                      child: flag == 0 ? Text('あなた') : Text('桃瀬ひより'),
+                    ),
+                    SizedBox(
+                      height: 5,
+                      width: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('$text',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Klee_One',
+                          )),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
