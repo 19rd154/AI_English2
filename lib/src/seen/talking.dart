@@ -79,44 +79,87 @@ class _TalkScreenState extends State<TalkScreen> {
             onUnitySceneLoaded: onUnitySceneLoaded,
             fullscreen: false,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+          Row(
             children: [
-              Center(
-                child: Container(
-                  width: 550,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFC51162).withOpacity(0.5), // 背景色を指定
-                    borderRadius: BorderRadius.circular(8.0), // 角を丸くする半径を指定
-                    border: Border.all(
-                      color: Colors.pink, // ボーダーの色を設定
-                      width: 1.0, // ボーダーの幅を設定
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                    width: 1,
+                  ),
+                  // 単語一覧を表示
+                  Text('単語一覧'),
+                  Container(
+                    width: 125,
+                    height: 270,
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Scrollbar(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: wordList.length, // 本当のアイテム数に置き換えてください
+                        itemBuilder: (BuildContext context, int index) {
+                          return WordContainer(worddata: wordList[index]);
+                        },
+                      ),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft, // テキストを右寄せに配置
-                        child: flag == 0 ? Text('あなた') : Text('桃瀬ひより'),
-                      ),
-                      SizedBox(
-                        height: 5,
-                        width: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('$text',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Klee_One',
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => (HomeScreen(
+                              username: widget.username,
+                              password: widget.password,
+                              userid: widget.userid,
                             )),
+                            fullscreenDialog: true,
+                          ),
+                        );
+                      },
+                      child: Text('Back')),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 550,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFC51162).withOpacity(0.5), // 背景色を指定
+                        borderRadius: BorderRadius.circular(8.0), // 角を丸くする半径を指定
+                        border: Border.all(
+                          color: Colors.pink, // ボーダーの色を設定
+                          width: 1.0, // ボーダーの幅を設定
+                        ),
                       ),
-                    ],
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft, // テキストを右寄せに配置
+                            child: flag == 0 ? Text('あなた') : Text('桃瀬ひより'),
+                          ),
+                          SizedBox(
+                            height: 5,
+                            width: 10,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('$text',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Klee_One',
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
