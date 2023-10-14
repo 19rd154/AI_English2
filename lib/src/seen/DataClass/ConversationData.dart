@@ -6,3 +6,12 @@ class ConversationData{
 
   });
 }
+
+class SessionData{
+  int times;
+
+  SessionData({
+    required this.times,
+
+  });
+}

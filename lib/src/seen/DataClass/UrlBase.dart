@@ -1,4 +1,4 @@
 
 class HttpURL {
-  String hostname = '107.22.211.32:3001';
+  String hostname = '107.22.211.32:80';
 }
