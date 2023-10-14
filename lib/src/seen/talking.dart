@@ -83,12 +83,12 @@ class _TalkScreenState extends State<TalkScreen> {
             children: [
               Column(
                 children: [
-                  SizedBox(
-                    height: 20,
-                    width: 1,
-                  ),
                   // 単語一覧を表示
-                  Text('単語一覧'),
+                  Container(
+                      width: 125,
+                      height: 20,
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Text('            単語一覧')),
                   Container(
                     width: 125,
                     height: 270,
@@ -117,6 +117,10 @@ class _TalkScreenState extends State<TalkScreen> {
                           ),
                         );
                       },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color(0xFFC51162), // 背景色を設定
+                        primary: Colors.white,
+                      ),
                       child: Text('Back')),
                 ],
               ),
