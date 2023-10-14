@@ -74,49 +74,6 @@ class _TalkScreenState extends State<TalkScreen> {
     return Scaffold(
       body: Row(
         children: [
-          Column(
-            children: [
-              SizedBox(
-                height: 20,
-                width: 1,
-              ),
-              // 単語一覧を表示
-              Text('単語一覧'),
-              Container(
-                width: 150,
-                height: 290,
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
-                child: Scrollbar(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: wordList.length, // 本当のアイテム数に置き換えてください
-                    itemBuilder: (BuildContext context, int index) {
-                      return WordContainer(worddata: wordList[index]);
-                    },
-                  ),
-                ),
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => (HomeScreen(
-                          username: widget.username,
-                          password: widget.password,
-                          userid: widget.userid,
-                        )),
-                        fullscreenDialog: true,
-                      ),
-                    );
-                  },
-                  child: Text('Back')),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-            width: 10,
-          ),
           // Live2Dはここから
           Stack(children: <Widget>[
             UnityWidget(
