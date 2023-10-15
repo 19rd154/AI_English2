@@ -7,37 +7,42 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ConversationContainer extends StatefulWidget {
-  ConversationListData worddata;
-  ConversationContainer({Key? key,required this.worddata}) : super(key: key);
+  final ConversationListData worddata;
 
+  ConversationContainer({Key? key, required this.worddata}) : super(key: key);
 
   @override
   State<ConversationContainer> createState() => ConversationContainerState();
 }
-class ConversationContainerState extends State<ConversationContainer>{
-  late WordMeaningData wordmean;
 
-   @override
+class ConversationContainerState extends State<ConversationContainer> {
+  @override
   Widget build(BuildContext context) {
-    return 
-          
-        Container(
-          padding: const EdgeInsets.symmetric(
-            // 内側の余白を指定
-            horizontal: 20,
-            vertical: 8,
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 8,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(1),
+        ),
+        border: Border.all(
+          color: Colors.black, // 枠線の色を設定
+          width: 1, // 枠線の幅を設定
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${widget.worddata.context}',
+            style: const TextStyle(fontSize: 15, fontFamily: 'Klee_One'),
+            textAlign: TextAlign.center,
           ),
-          decoration: const BoxDecoration(
-            color: Colors.white, // 背景色を指定
-            borderRadius: BorderRadius.all(
-              Radius.circular(32), // 角丸を設定
-            ),
-          ),
-          child: Text('$context',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3, 
-                            style: const TextStyle(fontSize: 15,fontFamily: 'Klee_One',)
-                          ),
-        );
+        ],
+      ),
+    );
   }
 }

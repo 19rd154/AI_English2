@@ -57,7 +57,7 @@ class _listScreenState extends State<listScreen> {
                 Text('単語一覧'),
                 Container(
                   width: 400,
-                  height: 700,
+                  height: 600,
                   decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
                   child: Scrollbar(
                     child: ListView.builder(
