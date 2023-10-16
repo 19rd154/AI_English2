@@ -54,10 +54,10 @@ class conversationlistScreenState extends State<conversationlistScreen> {
               children: [
                 SizedBox(height: 40,width: 1,),
                 // 単語一覧を表示
-                Text('単語一覧'),
+                Text('会話履歴'),
                 Container(
                   width: 400,
-                  height: 700,
+                  height: 600,
                   decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
                   child: Scrollbar(
                     child: ListView.builder(
@@ -68,7 +68,7 @@ class conversationlistScreenState extends State<conversationlistScreen> {
                       },
                     ),
                   ),
-                ),TextButton(onPressed: () {
+                ),ElevatedButton(onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
